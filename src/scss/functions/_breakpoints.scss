@@ -1,0 +1,241 @@
+/**
+ * get all brekpoints as map
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {map} all breakpoints
+ */
+@function getBreakpoints() {
+    @return map-get(getSettings(), 'breakpoints');
+}
+
+/**
+ * get all rederable brekpoints as map
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {map} all breakpoints
+ */
+@function getRenderableBreakpoints() {
+    $breakpoints: map-get(getSettings(), 'breakpoints');
+
+    @each $bpkey, $value in $breakpoints {
+        @if getBreakpointValue($bpkey, virtual) == true {
+            $breakpoints: map-remove($breakpoints, $bpkey);
+        }
+    }
+
+    @return $breakpoints;
+}
+
+/**
+ * Gets a map of breakpoint keys
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {array} array list
+ */
+@function getBreakpointList() {
+    @return map-keys(getBreakpoints());
+}
+
+/**
+ * Gets a map of renderable breakpoint keys
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {array} array list
+ */
+@function getRederableBreakpointList() {
+    @return map-keys(getRenderableBreakpoints());
+}
+
+/**
+ * gets a specific breakpoint map by it's key
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key Key of a specific brekpoint
+ *
+ * @return {map}      map of a specific breakpoint
+ */
+@function getBreakpointByKey($key) {
+    @return map-get(getBreakpoints(), $key);
+}
+
+/**
+ * gets a specific value from a specific brekpoint
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key   key of the brekpoint
+ * @param  {string} $value key of the property
+ *
+ * @return {mixed}        value of the property
+ */
+@function getBreakpointValue($key, $value) {
+    $brvalue: map-get(getBreakpointByKey($key), $value);
+    @if not($brvalue) { $brvalue: 0; }
+    @return $brvalue;
+}
+
+/**
+ * gets a breakpoint length - difference to getBreakpointValue(): converts the value to the corrent format
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key   breakpoint key
+ * @param  {string} $value breakpoint property
+ *
+ * @return {mixed}        length of the property
+ */
+@function getBreakpointLength($key, $value) {
+    $length: getBreakpointValue($key, $value);
+    @if isPercentage($length) {
+        @return $length;
+    } @else {
+        @return $length;
+    }
+}
+
+/**
+ * gets the min width for a breakpoint, for use in a media query
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ *
+ * @return {string}      media query string
+ */
+@function getMinBreakpoint($key) {
+    @return '(min-width: #{getBreakpointLength($key, min)})';
+}
+
+/**
+ * gets the max width for a brekpoint, for use in a media query
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ *
+ * @return {string}      media query string
+ */
+@function getMaxBreakpoint($key) {
+    @return '(max-width: #{getBreakpointLength($key, max)})';
+}
+
+/**
+ * gets the exact width for a breakpoint, for use in a media query
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ *
+ * @return {string}      media query string
+ */
+@function getEqBreakpoint($key) {
+    @return '#{getMinBreakpoint($key)} and #{getMaxBreakpoint($key)}';
+}
+
+
+/**
+ * checks if the brekpoint has a min value
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ *
+ * @return {bool}      if the breakpoint has a min value
+ */
+@function breakpointHasMin($key) {
+    @return map-has-key(getBreakpointByKey($key), 'min');
+}
+
+/**
+ * checks if the brekpoint has a max value
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ *
+ * @return {bool}      if the brekpoint has a max value
+ */
+@function breakpointHasMax($key) {
+    @return map-has-key(getBreakpointByKey($key), 'max');
+}
+
+/**
+ * builds a media query for the given type and breakpoint
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $type      type of breakpoint: min, max, eq
+ * @param  {string} $key       breakpoint key
+ * @param  {bool} $fallback: true          if it should fall back to min/max if the given type isn't set for this breakpoint
+ *
+ * @return {string}            full media query for the breakpoint
+ */
+@function getMediaQuery($type, $key, $fallback: true) {
+    $return: null;
+
+    @if $type == retina {
+        @return getConstantValue(mediaQuerys, retina);
+    }
+    @else if $type == no-retina {
+        @return getConstantValue(mediaQuerys, noRetina);
+    }
+    @else if $type == landscape {
+        $return: getConstantValue(mediaQuerys, landscape);
+    }
+    @else if $type == portrait {
+        $return: getConstantValue(mediaQuerys, portrait);
+    }
+    @else if $type == touch {
+        @return '.touch ';
+    }
+    @else if $type == no-touch {
+        @return '.no-touch ';
+    }
+    @else if $type == eq {
+        @if breakpointHasMin($key) and breakpointHasMax($key) {
+            $return: getEqBreakpoint($key);
+        }
+        @else if breakpointHasMin($key) and not(breakpointHasMax($key)) {
+            $return: getMinBreakpoint($key);
+        }
+        @else if not(breakpointHasMin($key)) and not(breakpointHasMax($key)) {
+            @error 'Breakpoint #{$key} misses min AND max!';
+        }
+        @else {
+            $return: getMaxBreakpoint($key);
+        }
+    }
+    @else if $type == min {
+        @if not(breakpointHasMin($key)) and $fallback {
+            @warn 'Breakpoint #{$key} lacks "min", fallback to max-breakpoint';
+            $return: getMaxBreakpoint($key);
+        } 
+        @else if not(breakpointHasMin($key)) and not($fallback) {
+            $return: getMinBreakpoint($key);
+        }
+        @else {
+            $return: getMinBreakpoint($key);
+        }
+    }
+    @else if $type == max {
+        @if not(breakpointHasMax($key)) and $fallback {
+            @warn 'Breakpoint #{$key} lacks "max", fallback to min-breakpoint';
+            $return: getMinBreakpoint($key);
+        }
+        @else if not(breakpointHasMax($key)) and not($fallback) {
+            $return: getMaxBreakpoint($key);
+        }
+        @else {
+            $return: getMaxBreakpoint($key);
+        }
+    }
+
+    @if not($return == null) {
+        @return '#{getConfigValue(mqTarget)} and #{$return}';
+    }
+}

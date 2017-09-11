@@ -1,0 +1,128 @@
+$gridSettings: (
+    config: (
+        /*
+         * settings for the generated classnames
+         */
+        naming: (
+            prefix: 'grid--',
+            container: 'container',
+            row: 'row',
+            col: 'col',
+            offset: 'offset',
+            hide: 'hide',
+            show: 'show',
+            only: 'only',
+            retina: 'retina',
+            no-retina: 'no-retina',
+            landscape: 'landscape',
+            portrait: 'portrait',
+            touch: 'touch',
+            no-touch: 'no-touch',
+            separator: '-'
+        ),
+        /*
+         * target of the media queries - should usually be 'only screen', but can by left empty to target print styles as well
+         */
+        mqTarget: 'only screen',
+        /*
+         * base font size in px, is used for rem calculation
+         */
+        baseFontSize: 16px,
+        /*
+         * grid origin
+         */
+        origin: 'left',
+        /*
+         * enabled features - possible features: 
+         * - classes:       - generates the classes
+         * - fluid          - if the grid should generally be fluid - container widths will be 100% in every breakpoint
+         * - visibility     - visibility features (show for breakpoint x, hide for another)
+         * - adv-visibility - advanced visibility (decide which type of display the container sgould have: inline, inline-block, block)
+         * - retina         - show element only for (no-) retina devices
+         * - orientation    - show element only in landscape/portrait-mode
+         * - touch          - show element only on (no-)touch devices
+         * - offset         - enables offset-classes
+         * 
+         * - all features disabled: '' - only grid
+         */
+        features: classes visibility retina orientation touch offset,
+        /*
+         * switch between modes:
+         * - float      - default grid mode
+         * - flex       - flexbox mode
+         */
+        mode: float
+    ),
+    /*
+     * breakpoint definitions
+     */
+    breakpoints: (
+        /*
+         * breakpoint name, can be changed to whatever you want, changes class names obviously
+         *
+         * virtual:     exclude breakpoint from class rendering, breakpoint can still be used in mq-mixin   - optional, default: false, bool
+         * content:     content width in px, can be set to 100% for fluid breakpoint                        - required if virtual: false, size
+         * padding:     content padding in px, left and right of the grid                                   - required if virtual: false, size
+         * gutter:      grid gutter width in px, between columns                                            - required if virtual: false, size
+         * columnCount: number of columns you want to heave:                                                - required if virtual: false, number
+         * min:         min width in px, will fallback to no min width (phone breakpoint)                   - optional, size
+         * max:         max width in px, will fallback to no min width (xxxl-breakpoint)                    - optional, size
+         *
+         * You can use this format to create for example overlapping breakpoints, for different device categories
+         */
+        small: (
+            max: 467px,
+            content: 100%,
+            padding: 10px,
+            gutter: 6px,
+            columnCount: 12
+        ),
+        medium: (
+            min: 468px,
+            max: 1023px,
+            content: 468px,
+            padding: 20px,
+            gutter: 12px,
+            columnCount: 12
+        ),
+        large: (
+            min: 1024px,
+            content: 1024px,
+            padding: 25px,
+            gutter: 16px,
+            columnCount: 12
+        ),
+        phone: (
+            virtual: true,
+            max: 767px,
+        ),
+        tablet: (
+            virtual: true,
+            min: 768px,
+            max: 1279px
+        ),
+        desktop: (
+            virtual: true,
+            min: 1280px
+        )
+    )
+) !default;
+
+$gridConstants: (
+    mediaQuerys: (
+        retina: 'only screen and (-webkit-min-device-pixel-ratio: 2),
+            only screen and (   min--moz-device-pixel-ratio: 2),
+            only screen and (     -o-min-device-pixel-ratio: 2/1),
+            only screen and (        min-device-pixel-ratio: 2),
+            only screen and (                min-resolution: 192dpi),
+            only screen and (                min-resolution: 2dppx)',
+        noRetina: 'only screen and (-webkit-max-device-pixel-ratio: 1.992),
+            only screen and (   max--moz-device-pixel-ratio: 1.992),
+            only screen and (     -o-max-device-pixel-ratio: 1.992/1),
+            only screen and (        max-device-pixel-ratio: 1.992),
+            only screen and (                max-resolution: 191dpi),
+            only screen and (                max-resolution: 1.99dppx)',
+        landscape: '(orientation: landscape)',
+        portrait: '(orientation: portrait)'
+    )
+) !global;

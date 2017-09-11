@@ -1,0 +1,177 @@
+/**
+ * shorthand for getConfigValue('features')
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {list} list of features
+ */
+@function getFeatures() {
+    @return getConfigValue('features');
+}
+
+/**
+ * checks if a given feature is enabled
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $feature feature key
+ *
+ * @return {bool}          if the feature is enabled
+ */
+@function featureEnabled($feature) {
+    @return index(getFeatures(), $feature) != null;
+}
+
+/**
+ * getter for settings
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {map} map of all settings
+ */
+@function getSettings() {
+    @return $gridSettings;
+}
+
+/**
+ * getter for constants
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {map} map of all constants
+ */
+@function getConstants() {
+    @return $gridConstants;
+}
+
+/**
+ * shorthand for getConfigValue('mode')
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {string} mode
+ */
+@function getMode() {
+    @return getConfigValue('mode');
+}
+
+/**
+ * checks if the given mode if active
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string}  $mode mode name
+ *
+ * @return {bool}       if the mode is set
+ */
+@function isMode($mode) {
+    @return getMode() == $mode;
+}
+
+/**
+ * merges the default config with the given one
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {map} $defaults default config
+ * @param  {map} $config   new config
+ *
+ * @return {map}           merged config
+ */
+@function mergeConfig($defaults, $config) {
+    @if map-has-key($config, 'config') {
+        $config: mergeProperties($defaults, $config, 'config');
+    }
+
+    @return map-merge($defaults, $config);
+}
+
+/**
+ * merges one property from two given maps
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {map} $var1 first map
+ * @param  {map} $var2 second map
+ * @param  {string} $prop name of property
+ *
+ * @return {map}       merged map
+ */
+@function mergeProperties($var1, $var2, $prop) {
+    @return map-merge($var1,
+        map-merge($var2, (config:
+            map-merge(
+                map-get($var1, $prop), 
+                map-get($var2, $prop)
+            ))
+        )    
+    );
+}
+
+/**
+ * gets the config
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @return {map} config map
+ */
+@function getConfig() {
+    @return map-get(getSettings(), 'config');
+}
+
+/**
+ * gets a specific value from the config
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key config key
+ *
+ * @return {mixed}      value for config key
+ */
+@function getConfigValue($key) {
+    @return map-get(getConfig(), $key);
+}
+
+/**
+ * gets sub config value for a key and a sub key
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key    config key
+ * @param  {string} $subkey sub config key
+ *
+ * @return {mixed}         value for keys
+ */
+@function getSubConfigValue($key, $subkey) {
+    @return map-get(getConfigValue($key), $subkey);
+}
+
+/**
+ * gets value for a constant
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $type constant type
+ * @param  {string} $key  constant key
+ *
+ * @return {mixed}       constant value
+ */
+@function getConstantValue($type, $key) {
+    @return map-get(
+        map-get(getConstants(), $type),
+        $key
+    );
+}
+
+/**
+ * gets naming string from config
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key naming key
+ *
+ * @return {string}      naming word
+ */
+@function naming($key) {
+    @return getSubConfigValue(naming, $key);
+}

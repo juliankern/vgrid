@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+        <script>
+            function resizeWindow() {
+                if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+                    document.getElementsByTagName('html')[0].className = ' touch'
+                } else {
+                    document.getElementsByTagName('html')[0].className = ' no-touch'
+                }
+            }
+
+            resizeWindow();
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="../dest/css/grid.css" />
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,900,700,500,100' rel='stylesheet' type='text/css'>
+
+        <style>
+            [class*="col"] {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            [class*="col"] span {
+                padding-top: 5px;
+                padding-bottom: 5px;
+                background-color: #ccc;    
+                text-align: center;
+                display: block;
+                box-shadow: inset 0 0 1px #111;
+            }
+
+            [class*="col"] span.green {
+                background-color: lightgreen;
+            }
+
+            hr {
+                height: 0;
+                border: 0;
+                border-top: 1px solid #ddd;
+            }
+
+            h1, h2 {
+                font-weight: 400;
+                letter-spacing: 2px;
+            }
+
+            body {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 300;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="grid--container">
+            <div class="grid--row">
+                <div class="grid--col-medium-12">
+                    <h1>grid</h1>
+                </div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Visibility</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-3 grid--hide-small-only">
+                    <span class="grey">not small</span>
+                </div>
+                <div class="grid--col-medium-3 grid--show-small-only">
+                    <span class="green">small</span>
+                </div>
+                <div class="grid--col-medium-3 grid--hide-medium-only">
+                    <span class="grey">not medium</span>
+                </div>
+                <div class="grid--col-medium-3 grid--show-medium-only">
+                    <span class="green">medium</span>
+                </div>
+                <div class="grid--col-medium-3 grid--hide-large-only">
+                    <span class="grey">not large</span>
+                </div>
+                <div class="grid--col-medium-3 grid--show-large-only">
+                    <span class="green">large</span>
+                </div>
+                <div class="grid--col-medium-3 grid--hide-xlarge-only">
+                    <span class="grey">not large</span>
+                </div>
+                <div class="grid--col-medium-3 grid--show-xlarge-only">
+                    <span class="green">large</span>
+                </div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-6 grid--hide-retina">
+                    <span class="grey">retina</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-retina">
+                    <span class="green">retina</span>
+                </div>
+                <div class="grid--col-medium-6 grid--hide-no-retina">
+                    <span class="grey">no-retina</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-no-retina">
+                    <span class="green">no-retina</span>
+                </div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-6 grid--hide-touch">
+                    <span class="grey">touch</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-touch">
+                    <span class="green">touch</span>
+                </div>
+                <div class="grid--col-medium-6 grid--hide-no-touch">
+                    <span class="grey">no-touch</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-no-touch">
+                    <span class="green">no-touch</span>
+                </div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-6 grid--hide-landscape">
+                    <span class="grey">landscape</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-landscape">
+                    <span class="green">landscape</span>
+                </div>
+                <div class="grid--col-medium-6 grid--hide-portrait">
+                    <span class="grey">portrait</span>
+                </div>
+                <div class="grid--col-medium-6 grid--show-portrait">
+                    <span class="green">portrait</span>
+                </div>
+            </div>
+
+            <br /><hr><br />
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Columns</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><span>12</span></div>
+            </div>
+            <div class="grid--row">
+                <div class="grid--col-medium-6"><span>6</span></div>
+                <div class="grid--col-medium-6"><span>6</span></div>
+            </div>
+            <div class="grid--row">
+                <div class="grid--col-medium-4"><span>4</span></div>
+                <div class="grid--col-medium-4"><span>4</span></div>
+                <div class="grid--col-medium-4"><span>4</span></div>
+            </div>
+            <div class="grid--row">
+                <div class="grid--col-medium-3"><span>3</span></div>
+                <div class="grid--col-medium-3"><span>3</span></div>
+                <div class="grid--col-medium-3"><span>3</span></div>
+                <div class="grid--col-medium-3"><span>3</span></div>
+            </div>
+            <div class="grid--row">
+                <div class="grid--col-medium-2"><span>2</span></div>
+                <div class="grid--col-medium-2"><span>2</span></div>
+                <div class="grid--col-medium-2"><span>2</span></div>
+                <div class="grid--col-medium-2"><span>2</span></div>
+                <div class="grid--col-medium-2"><span>2</span></div>
+                <div class="grid--col-medium-2"><span>2</span></div>
+            </div>
+            <div class="grid--row">
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+                <div class="grid--col-medium-1"><span>1</span></div>
+            </div>
+            
+            <br /><hr><br />
+
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Flex columns</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-small"><span>flex</span></div>
+                <div class="grid--col-small"><span>flex</span></div>
+                <div class="grid--col-small"><span>flex</span></div>
+                <div class="grid--col-small"><span>flex</span></div>
+                <div class="grid--col-small"><span>flex</span></div>
+            </div>
+            
+            <br /><hr><br />
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Responsive</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-small-6 grid--col-medium-6 grid--col-large-3">
+                    <span>small: 6, medium: 6, large: 3</span>
+                </div>
+                <div class="grid--col-small-3 grid--col-medium-6 grid--col-large-3">
+                    <span>small: 3, medium: 6, large: 3</span>
+                </div>
+                <div class="grid--col-small-3 grid--col-medium-6 grid--col-large-3">
+                    <span>small: 3, medium: 6, large: 3</span>
+                </div>
+                <div class="grid--col-small-6 grid--col-medium-6 grid--col-large-3">
+                    <span>small: 6, medium: 6, large: 3</span>
+                </div>
+            </div>
+
+            <br /><hr><br />
+
+            
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Nesting</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-4">
+                    <span>4</span>
+                </div>
+                <div class="grid--col-medium-8">
+                    <span>
+                        8
+                        <div class="grid--row">
+                            <div class="grid--col-medium-4">
+                                <span>4</span>
+                            </div>
+                            <div class="grid--col-medium-8">
+                                <span>
+                                    8
+                                    <div class="grid--row">
+                                        <div class="grid--col-medium-4">
+                                            <span>4</span>
+                                        </div>
+                                        <div class="grid--col-medium-8">
+                                            <span>8</span>
+                                        </div>
+                                    </div>      
+                                </span>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <br /><hr><br />
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12"><h2>Offsets</h2></div>
+            </div>
+
+            <div class="grid--row">
+                <div class="grid--col-medium-12 grid--col-offset-medium-0">
+                    <span>column: 12, offset: 0</span>
+                </div>
+                <div class="grid--col-medium-11 grid--col-offset-medium-1">
+                    <span>column: 11, offset: 1</span>
+                </div>
+                <div class="grid--col-medium-10 grid--col-offset-medium-2">
+                    <span>column: 10, offset: 2</span>
+                </div>
+                <div class="grid--col-medium-9 grid--col-offset-medium-3">
+                    <span>column: 9, offset: 3</span>
+                </div>
+                <div class="grid--col-medium-8 grid--col-offset-medium-4">
+                    <span>column: 8, offset: 4</span>
+                </div>
+                <div class="grid--col-medium-7 grid--col-offset-medium-5">
+                    <span>column: 7, offset: 5</span>
+                </div>
+                <div class="grid--col-medium-6 grid--col-offset-medium-6">
+                    <span>column: 6, offset: 6</span>
+                </div>
+                <div class="grid--col-medium-5 grid--col-offset-medium-7">
+                    <span>column: 5, offset: 7</span>
+                </div>
+                <div class="grid--col-medium-4 grid--col-offset-medium-8">
+                    <span>column: 4, offset: 8</span>
+                </div>
+                <div class="grid--col-medium-3 grid--col-offset-medium-9">
+                    <span>column: 3, offset: 9</span>
+                </div>
+                <div class="grid--col-medium-2 grid--col-offset-medium-10">
+                    <span>column: 2, offset: 10</span>
+                </div>
+                <div class="grid--col-medium-1 grid--col-offset-medium-11">
+                    <span>column: 1, offset: 11</span>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

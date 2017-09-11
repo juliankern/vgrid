@@ -1,0 +1,64 @@
+/**
+ * helper mixin to absolutely maximize an element
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {number} $distance: 0             distance to parent - can be negative
+ */
+@mixin absolute-fill($distance: 0) {
+    position: absolute;
+    left: $distance;
+    top: $distance;
+    right: $distance;
+    bottom: $distance;
+}
+
+/**
+ * helper mixin to generate show classes
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ */
+@mixin _show-element() {
+    display: block;
+
+    @if featureEnabled(adv-visibility) {
+        @each $type in (block, inline-block, inline) {
+            &#{naming(separator)}#{$type} {
+                display: $type;
+            }
+        }
+    }
+}
+
+/**
+ * helper mixin to hide elements
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ */
+@mixin _hide-element() {
+    display: none;
+}
+
+/**
+ * mixin to generate media queries
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $minmax:     min           type of media query - can be: min, max, eq
+ * @param  {string} $breakpoint: xsmall        breakpoint key
+ * @param  {bool} $fallback:   true          if the media query should fallback e.g. to min is max isn't present
+ */
+@mixin mq($minmax: min, $breakpoint: xsmall, $fallback: true) {
+    $mediaquery: getMediaQuery($minmax, $breakpoint, $fallback);
+
+    @if $minmax == touch or $minmax == no-touch {
+        #{$mediaquery} {
+            @content;
+        }
+    } 
+    @else {
+        @media #{$mediaquery} {
+            @content;
+        }
+    }
+}

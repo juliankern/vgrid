@@ -1,0 +1,21 @@
+{
+  "name": "grid",
+  "version": "1.0.0",
+  "description": "Very variable grid for use in frontend projects - use 'npm start' first, before opening an example",
+  "scripts": {
+    "compile": "node compile.js",
+    "compress": "node compile.js compress"
+  },
+  "keywords": [
+    "grid",
+    "scss",
+    "css",
+    "sass"
+  ],
+  "author": "Julian Kern <mail@juliankern.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "node-sass": "^3.4.2"
+  }
+}

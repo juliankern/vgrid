@@ -1,0 +1,76 @@
+@import "grid.scss";
+
+$grid: (
+    config: (
+        features: visibility retina orientation touch offset,
+        mode: flex
+    ),
+    breakpoints: (
+        small: (
+            max: 467px,
+            content: 100%,
+            padding: 10px,
+            gutter: 6px,
+            columnCount: 6
+        ),
+        medium: (
+            min: 468px,
+            max: 1023px,
+            content: 468px,
+            padding: 20px,
+            gutter: 12px,
+            columnCount: 12
+        ),
+        large: (
+            min: 1024px,
+            max: 1439px,
+            content: 1024px,
+            padding: 25px,
+            gutter: 16px,
+            columnCount: 12
+        ),
+        xlarge: (
+            min: 1440px,
+            content: 1440px,
+            padding: 35px,
+            gutter: 24px,
+            columnCount: 12
+        ),
+        phone: (
+            virtual: true,
+            max: 767px,
+        ),
+        tablet: (
+            virtual: true,
+            min: 768px,
+            max: 1279px
+        ),
+        desktop: (
+            virtual: true,
+            min: 1280px
+        )
+    )
+);
+
+@include grid($grid);
+
+
+.theContainer {
+    // generates the main container
+    @include generate-container();
+}
+
+.someRowElement {
+    // generates a grid row
+    @include generate-row();
+}
+
+.someColumnElement {
+    // generates a column with the span of 8
+    @include generate-single-column(8);
+}
+
+.anotherColumnElement {
+    // generates a colum with a span of 4, should fit with the other column in one line in a 12-column-grid
+    @include generate-single-column(4);
+}

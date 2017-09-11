@@ -1,0 +1,25 @@
+/**
+ * converts px to rem
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {number} $px pixel value
+ *
+ * @return {string}     rem value
+ */
+@function pxToRem($px) {
+    @return #{$px / getConfigValue(baseFontSize)}rem;
+}
+
+/**
+ * checks if the given value is a percentage
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string}  $value value to check
+ *
+ * @return {bool}        if the value has a percentage sign
+ */
+@function isPercentage($value) {
+  @return not(not(str-index('#{$value}', '%'))); 
+}

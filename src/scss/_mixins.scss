@@ -1,0 +1,33 @@
+@import 'mixins/helper';
+@import 'mixins/grid';
+
+/**
+ * init mixin for the grid
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {map} $settings map of settings - default settings will be merged
+ *
+ * @return {null}           
+ */
+@mixin grid($settings) {
+    $gridSettings: mergeConfig($gridSettings, $settings) !global;
+
+    @if featureEnabled(classes) {
+        .#{naming(prefix)} {
+            &#{naming(row)} {
+                @include generate-row();
+            }
+
+            &#{naming(container)} {
+                @include generate-container();
+            }
+
+            &#{naming(col)} {
+                @include generate-columns();
+            }
+        }
+
+        @include generate-visibility();
+    }
+}
