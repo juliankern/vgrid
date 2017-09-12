@@ -16,12 +16,13 @@ In the minimal configuration just 3KB small. The big example config weights just
 
 ## Installation
 
-```sh
-$ npm install
-```
+Just clone/download this repository. If you don't have you own sass processor, you can run ``npm install`` in the repository.
+
 ## Usage
 
-Type ``npm run compile`` in your console, to generate the ``grid.css`` file. Now you can open the ``example/*.html`` files in your browser to see the grid in action.
+Just include the file ``src/scss/grid.scss`` in your own SASS files.
+
+To use the included processor, type ``npm run compile`` in your console, to generate the ``grid.css`` file. Now you can open the ``example/*.html`` files in your browser to see the grid in action.
 
 To compile the CSS and compress it at the same time, use ``npm run compress``.
 
@@ -148,7 +149,7 @@ Copy the full ``scss``-folder to your project or import ``grid.scss`` in your ma
 ```scss
 @import "PATH/TO/VGRID/src/scss/grid.scss"
 
-$grid: (
+$settings: (
     config: (
         features: classes visibility retina orientation touch offset,
     ),
@@ -199,7 +200,7 @@ $grid: (
     )
 );
 
-@include vgrid($grid);
+@include vgrid($settings);
 ```
 
 This will generate the full grid classes. If you want to use grid in mixin-mode to build your own classes, you can just remove the feature ``classes`` from the configuration.
