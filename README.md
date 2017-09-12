@@ -1,7 +1,7 @@
 # grid
 
 This grid is a very variable grid system with multiple features:
-- enable/disable certain features for your needs 
+- enable/disable certain features for your needs
 - flexbox compatible
 - visibility-features
 - retina, touch and orientation-detection (touch-detection needs something like modernizr)
@@ -65,7 +65,7 @@ $gridSettings: (
          */
         origin: 'left',
         /*
-         * enabled features - possible features: 
+         * enabled features - possible features:
          * - classes:       - generates the classes
          * - fluid          - if the grid should generally be fluid - container widths will be 100% in every breakpoint
          * - visibility     - visibility features (show for breakpoint x, hide for another)
@@ -74,7 +74,7 @@ $gridSettings: (
          * - orientation    - show element only in landscape/portrait-mode
          * - touch          - show element only on (no-)touch devices
          * - offset         - enables offset-classes
-         * 
+         *
          * - all features disabled: '' - only grid
          */
         features: classes visibility retina orientation touch offset,
@@ -143,7 +143,7 @@ $gridSettings: (
 
 ## Example usage in your project
 
-Copy the full ``scss``-folder to your project or import ``grid.scss`` in your main SCSS-file. Set the config options you want to overwrite, provide the full breakpoints you need. Then start the grid. For example: 
+Copy the full ``scss``-folder to your project or import ``grid.scss`` in your main SCSS-file. Set the config options you want to overwrite, provide the full breakpoints you need. Then start the grid. For example:
 
 ```scss
 @import "../../libs/grid/src/scss/grid.scss"
@@ -238,18 +238,23 @@ One special feature of the grid is the mq-mixin, which is a allround mixin for b
 
 ```scss
 .someElement {
-    // builds a media query for every breakpoint bigger than (and equal) the medium breakpoint
-    @include mq(min, medium) {
-        padding: 10px 0;   
+    // builds a media query for every screen bigger than (and equal) the medium breakpoint
+    @include mq(min medium) {
+        padding: 10px 0;
     }
 
-    // builds a media query for every breakpoint smaller than (and equal) the small breakpoint
-    @include mq(max, small) {
-        color: red;   
+    // builds a media query for every screen smaller than (and equal) the small breakpoint
+    @include mq(max small) {
+        color: red;
+    }
+
+    // builds a media query for every screen bigger than (and equal) 320px
+    @include mq(min 320px) { // works as well with "rem"
+        color: red;
     }
 
     // builds a media query for just the large breakpoint
-    @include mq(eq, large) {
+    @include mq(large) { // can be writte as "mq(eq large)" as well
         text-align: right;
     }
 

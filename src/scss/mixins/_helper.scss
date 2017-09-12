@@ -46,16 +46,23 @@
  *
  * @param  {string} $minmax:     min           type of media query - can be: min, max, eq
  * @param  {string} $breakpoint: xsmall        breakpoint key
- * @param  {bool} $fallback:   true          if the media query should fallback e.g. to min is max isn't present
+ * @param  {bool}   $fallback:   true          if the media query should fallback e.g. to min is max isn't present
  */
-@mixin mq($minmax: min, $breakpoint: xsmall, $fallback: true) {
+@mixin mq($params: (min xsmall), $fallback: true) {
+    $minmax: nth($params, 1);
+    $breakpoint: null;
+
+    @if length($params) == 2 {
+        $breakpoint: nth($params, 2);
+    }
+
     $mediaquery: getMediaQuery($minmax, $breakpoint, $fallback);
 
     @if $minmax == touch or $minmax == no-touch {
         #{$mediaquery} {
             @content;
         }
-    } 
+    }
     @else {
         @media #{$mediaquery} {
             @content;

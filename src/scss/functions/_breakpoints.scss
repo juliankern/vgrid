@@ -108,7 +108,16 @@
  * @return {string}      media query string
  */
 @function getMinBreakpoint($key) {
-    @return '(min-width: #{getBreakpointLength($key, min)})';
+    $breakpoint: '';
+
+    @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
+        $breakpoint: $key;
+    }
+    @else {
+        $breakpoint: getBreakpointLength($key, min)
+    }
+
+    @return '(min-width: #{$breakpoint})';
 }
 
 /**
@@ -121,7 +130,16 @@
  * @return {string}      media query string
  */
 @function getMaxBreakpoint($key) {
-    @return '(max-width: #{getBreakpointLength($key, max)})';
+    $breakpoint: '';
+
+    @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
+        $breakpoint: $key;
+    }
+    @else {
+        $breakpoint: getBreakpointLength($key, max)
+    }
+
+    @return '(max-width: #{$breakpoint})';
 }
 
 /**
@@ -196,25 +214,14 @@
     @else if $type == no-touch {
         @return '.no-touch ';
     }
-    @else if $type == eq {
-        @if breakpointHasMin($key) and breakpointHasMax($key) {
-            $return: getEqBreakpoint($key);
-        }
-        @else if breakpointHasMin($key) and not(breakpointHasMax($key)) {
+    @else if $type == min {
+        @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
             $return: getMinBreakpoint($key);
         }
-        @else if not(breakpointHasMin($key)) and not(breakpointHasMax($key)) {
-            @error 'Breakpoint #{$key} misses min AND max!';
-        }
-        @else {
-            $return: getMaxBreakpoint($key);
-        }
-    }
-    @else if $type == min {
-        @if not(breakpointHasMin($key)) and $fallback {
+        @else if not(breakpointHasMin($key)) and $fallback {
             @warn 'Breakpoint #{$key} lacks "min", fallback to max-breakpoint';
             $return: getMaxBreakpoint($key);
-        } 
+        }
         @else if not(breakpointHasMin($key)) and not($fallback) {
             $return: getMinBreakpoint($key);
         }
@@ -223,7 +230,10 @@
         }
     }
     @else if $type == max {
-        @if not(breakpointHasMax($key)) and $fallback {
+        @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
+            $return: getMaxBreakpoint($key);
+        }
+        @else if not(breakpointHasMax($key)) and $fallback {
             @warn 'Breakpoint #{$key} lacks "max", fallback to min-breakpoint';
             $return: getMinBreakpoint($key);
         }
@@ -232,6 +242,31 @@
         }
         @else {
             $return: getMaxBreakpoint($key);
+        }
+    }
+    @else if ($key == null and not($type == null)) or $type == eq {
+        @if ($key == null) {
+            $key: $type;
+            $type: eq;
+        }
+
+        @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') and $type == eq {
+            @warn 'If providing a pixel value, you need to choose if "min" or "max", fallback to min';
+            $return: getMinBreakpoint($key);
+        }
+        @else {
+            @if breakpointHasMin($key) and breakpointHasMax($key) {
+                $return: getEqBreakpoint($key);
+            }
+            @else if breakpointHasMin($key) and not(breakpointHasMax($key)) {
+                $return: getMinBreakpoint($key);
+            }
+            @else if not(breakpointHasMin($key)) and not(breakpointHasMax($key)) {
+                @error 'Breakpoint #{$key} misses min AND max!';
+            }
+            @else {
+                $return: getMaxBreakpoint($key);
+            }
         }
     }
 

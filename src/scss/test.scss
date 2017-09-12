@@ -55,6 +55,18 @@ $grid: (
 @include grid($grid);
 
 
+.test {
+    color: blue;
+
+    @include mq(medium) {
+        color: red;
+    }
+
+    @include mq(min 320px) {
+        color: green;
+    }
+}
+
 .theContainer {
     // generates the main container
     @include generate-container();

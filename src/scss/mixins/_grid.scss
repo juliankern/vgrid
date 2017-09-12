@@ -9,10 +9,10 @@
 
     @each $bpkey in getBreakpointList() {
         @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min, $bpkey, false) {
+            @include mq(min $bpkey, false) {
                 $padding: getBreakpointLength($bpkey, padding);
 
-                @if not(featureEnabled(fluid)) { 
+                @if not(featureEnabled(fluid)) {
                     width: getBreakpointLength($bpkey, content);
                 }
 
@@ -51,7 +51,7 @@
 
     @each $bpkey in getBreakpointList() {
         @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min, $bpkey, false) {
+            @include mq(min $bpkey, false) {
                 $margin: getBreakpointValue($bpkey, gutter);
                 margin-left: $margin * 0.5 * -1;
                 margin-right: $margin * 0.5 * -1;
@@ -76,7 +76,7 @@
         @if getConfigValue(origin) == 'right' {
             justify-content: flex-end;
             text-align: end;
-        } 
+        }
     } @else {
         float: #{getConfigValue(origin)};
         position: relative;
@@ -85,12 +85,12 @@
 
     @each $bpkey in getBreakpointList() {
         @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min, $bpkey, false) {
+            @include mq(min $bpkey, false) {
                 $padding: getBreakpointValue($bpkey, gutter);
                 padding-left: $padding * 0.5;
                 padding-right: $padding * 0.5;
 
-                @include generate-column($number, getBreakpointValue($bpkey, columnCount)); 
+                @include generate-column($number, getBreakpointValue($bpkey, columnCount));
 
                 @if isMode(flex) {
                     flex-basis: 0;
@@ -120,7 +120,7 @@
             @if getConfigValue(origin) == 'right' {
                 justify-content: flex-end;
                 text-align: end;
-            } 
+            }
         } @else {
             float: #{getConfigValue(origin)};
             position: relative;
@@ -130,7 +130,7 @@
 
     @each $bpkey in getBreakpointList() {
         @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min, $bpkey, false) {
+            @include mq(min $bpkey, false) {
                 @at-root [class*="#{str-slice($sel, 2)}#{naming(separator)}"] {
                     $padding: getBreakpointValue($bpkey, gutter);
                     padding-left: $padding * 0.5;
@@ -138,13 +138,13 @@
                 }
 
                 @for $i from 1 through getBreakpointValue($bpkey, columnCount) {
-                    &#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} { 
-                        @include generate-column($i, getBreakpointValue($bpkey, columnCount)); 
+                    &#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} {
+                        @include generate-column($i, getBreakpointValue($bpkey, columnCount));
                     }
                 }
 
                 @if isMode(flex) {
-                    &#{naming(separator)}#{$bpkey} { 
+                    &#{naming(separator)}#{$bpkey} {
                         flex-basis: 0;
                         flex-grow: 1;
                         max-width: 100%;
@@ -153,10 +153,10 @@
 
                 @if featureEnabled(offset) {
                     @for $i from 1 through getBreakpointValue($bpkey, columnCount) {
-                        &#{naming(separator)}#{naming(offset)}#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} { 
-                            @include generate-column-offset($i, getBreakpointValue($bpkey, columnCount)); 
+                        &#{naming(separator)}#{naming(offset)}#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} {
+                            @include generate-column-offset($i, getBreakpointValue($bpkey, columnCount));
                         }
-                    } 
+                    }
                 }
             }
         }
@@ -201,7 +201,7 @@
  */
 @mixin generate-visibility-hide() {
     @each $bpkey in getBreakpointList() {
-        @include mq(min, $bpkey, false) {
+        @include mq(min $bpkey, false) {
             &#{naming(separator)}#{$bpkey} {
                 display: none;
             }
@@ -219,7 +219,7 @@
 
     @if featureEnabled(visibility) {
         @each $bpkey in getRederableBreakpointList() {
-            @include mq(min, $bpkey, false) {
+            @include mq(min $bpkey, false) {
                 $showSelector: ();
                 $hideSelector: ();
 
@@ -296,7 +296,7 @@
             #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(no-touch)} {
                 @include _hide-element();
             }
-            
+
             #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(touch)},
             #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(no-touch)} {
                 @include _show-element();
@@ -322,7 +322,7 @@
             #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(portrait)} {
                 @include _hide-element();
             }
-            
+
             #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(landscape)},
             #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(portrait)} {
                 @include _show-element();
