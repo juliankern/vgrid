@@ -36,7 +36,7 @@ $vgrid-settings: (
          * settings for the generated classnames
          */
         naming: (
-            prefix: 'grid--',
+            prefix: 'vgrid--',
             container: 'container',
             row: 'row',
             col: 'col',
@@ -289,3 +289,6 @@ One special feature of the grid is the mq-mixin, which is a allround mixin for b
 }
 
 ```
+
+## ToDo
+- add grid mode
