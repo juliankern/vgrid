@@ -5,8 +5,8 @@
  *
  * @return {list} list of features
  */
-@function getFeatures() {
-    @return getConfigValue('features');
+@function vgrid-getFeatures() {
+    @return vgrid-getConfigValue('features');
 }
 
 /**
@@ -18,8 +18,8 @@
  *
  * @return {bool}          if the feature is enabled
  */
-@function featureEnabled($feature) {
-    @return index(getFeatures(), $feature) != null;
+@function vgrid-featureEnabled($feature) {
+    @return index(vgrid-getFeatures(), $feature) != null;
 }
 
 /**
@@ -29,8 +29,8 @@
  *
  * @return {map} map of all settings
  */
-@function getSettings() {
-    @return $gridSettings;
+@function vgrid-getSettings() {
+    @return $vgrid-settings;
 }
 
 /**
@@ -40,8 +40,8 @@
  *
  * @return {map} map of all constants
  */
-@function getConstants() {
-    @return $gridConstants;
+@function vgrid-getConstants() {
+    @return $vgrid-constants;
 }
 
 /**
@@ -51,8 +51,8 @@
  *
  * @return {string} mode
  */
-@function getMode() {
-    @return getConfigValue('mode');
+@function vgrid-getMode() {
+    @return vgrid-getConfigValue('mode');
 }
 
 /**
@@ -64,8 +64,8 @@
  *
  * @return {bool}       if the mode is set
  */
-@function isMode($mode) {
-    @return getMode() == $mode;
+@function vgrid-isMode($mode) {
+    @return vgrid-getMode() == $mode;
 }
 
 /**
@@ -78,9 +78,9 @@
  *
  * @return {map}           merged config
  */
-@function mergeConfig($defaults, $config) {
+@function vgrid-mergeConfig($defaults, $config) {
     @if map-has-key($config, 'config') {
-        $config: mergeProperties($defaults, $config, 'config');
+        $config: vgrid-mergeProperties($defaults, $config, 'config');
     }
 
     @return map-merge($defaults, $config);
@@ -97,14 +97,14 @@
  *
  * @return {map}       merged map
  */
-@function mergeProperties($var1, $var2, $prop) {
+@function vgrid-mergeProperties($var1, $var2, $prop) {
     @return map-merge($var1,
         map-merge($var2, (config:
             map-merge(
-                map-get($var1, $prop), 
+                map-get($var1, $prop),
                 map-get($var2, $prop)
             ))
-        )    
+        )
     );
 }
 
@@ -115,8 +115,8 @@
  *
  * @return {map} config map
  */
-@function getConfig() {
-    @return map-get(getSettings(), 'config');
+@function vgrid-getConfig() {
+    @return map-get(vgrid-getSettings(), 'config');
 }
 
 /**
@@ -128,8 +128,8 @@
  *
  * @return {mixed}      value for config key
  */
-@function getConfigValue($key) {
-    @return map-get(getConfig(), $key);
+@function vgrid-getConfigValue($key) {
+    @return map-get(vgrid-getConfig(), $key);
 }
 
 /**
@@ -142,8 +142,8 @@
  *
  * @return {mixed}         value for keys
  */
-@function getSubConfigValue($key, $subkey) {
-    @return map-get(getConfigValue($key), $subkey);
+@function vgrid-getSubConfigValue($key, $subkey) {
+    @return map-get(vgrid-getConfigValue($key), $subkey);
 }
 
 /**
@@ -156,9 +156,9 @@
  *
  * @return {mixed}       constant value
  */
-@function getConstantValue($type, $key) {
+@function gvgrid-etConstantValue($type, $key) {
     @return map-get(
-        map-get(getConstants(), $type),
+        map-get(vgrid-getConstants(), $type),
         $key
     );
 }
@@ -172,6 +172,6 @@
  *
  * @return {string}      naming word
  */
-@function naming($key) {
-    @return getSubConfigValue(naming, $key);
+@function vgrid-naming($key) {
+    @return vgrid-getSubConfigValue(naming, $key);
 }

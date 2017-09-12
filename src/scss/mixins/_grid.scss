@@ -3,17 +3,17 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin generate-container() {
+@mixin vgrid-generate-container() {
     margin: 0 auto;
     box-sizing: border-box;
 
-    @each $bpkey in getBreakpointList() {
-        @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min $bpkey, false) {
-                $padding: getBreakpointLength($bpkey, padding);
+    @each $bpkey in vgrid-getBreakpointList() {
+        @if not(vgrid-getBreakpointValue($bpkey, virtual) == true) {
+            @include vgrid-mq(min $bpkey, false) {
+                $padding: vgrid-getBreakpointLength($bpkey, padding);
 
-                @if not(featureEnabled(fluid)) {
-                    width: getBreakpointLength($bpkey, content);
+                @if not(vgrid-featureEnabled(fluid)) {
+                    width: vgrid-getBreakpointLength($bpkey, content);
                 }
 
                 padding-left: $padding;
@@ -28,19 +28,19 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin generate-row() {
+@mixin vgrid-generate-row() {
     box-sizing: border-box;
 
-    @if isMode(flex) {
+    @if vgrid-isMode(flex) {
         display: flex;
         flex: 0 1 auto;
         flex-direction: row;
         flex-wrap: wrap;
 
-        @if getConfigValue(origin) == 'right' {
+        @if vgrid-getConfigValue(origin) == 'right' {
             justify-content: flex-end;
             text-align: end;
-        } @elseif getConfigValue(origin) == 'center' {
+        } @elseif vgrid-getConfigValue(origin) == 'center' {
             justify-content: center;
             text-align: center;
         }
@@ -49,10 +49,10 @@
         overflow: hidden;
     }
 
-    @each $bpkey in getBreakpointList() {
-        @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min $bpkey, false) {
-                $margin: getBreakpointValue($bpkey, gutter);
+    @each $bpkey in vgrid-getBreakpointList() {
+        @if not(vgrid-getBreakpointValue($bpkey, virtual) == true) {
+            @include vgrid-mq(min $bpkey, false) {
+                $margin: vgrid-getBreakpointValue($bpkey, gutter);
                 margin-left: $margin * 0.5 * -1;
                 margin-right: $margin * 0.5 * -1;
             }
@@ -67,35 +67,33 @@
  *
  * @param  {number} $number number of the column to generate
  */
-@mixin generate-single-column($number) {
+@mixin vgrid-generate-single-column($number) {
     box-sizing: border-box;
 
-    @if isMode(flex) {
+    @if vgrid-isMode(flex) {
         flex: 0 0 auto;
 
-        @if getConfigValue(origin) == 'right' {
+        @if vgrid-getConfigValue(origin) == 'right' {
             justify-content: flex-end;
             text-align: end;
         }
     } @else {
-        float: #{getConfigValue(origin)};
+        float: #{vgrid-getConfigValue(origin)};
         position: relative;
         width: 100%;
     }
 
-    @each $bpkey in getBreakpointList() {
-        @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min $bpkey, false) {
-                $padding: getBreakpointValue($bpkey, gutter);
+    @each $bpkey in vgrid-getBreakpointList() {
+        @if not(vgrid-getBreakpointValue($bpkey, virtual) == true) {
+            @include vgrid-mq(min $bpkey, false) {
+                $padding: vgrid-getBreakpointValue($bpkey, gutter);
                 padding-left: $padding * 0.5;
                 padding-right: $padding * 0.5;
 
-                @include generate-column($number, getBreakpointValue($bpkey, columnCount));
+                @include vgrid-generate-column($number, vgrid-getBreakpointValue($bpkey, columnCount));
 
-                @if isMode(flex) {
-                    flex-basis: 0;
+                @if vgrid-isMode(flex) {
                     flex-grow: 1;
-                    max-width: 100%;
                 }
             }
         }
@@ -107,54 +105,54 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin generate-columns() {
+@mixin vgrid-generate-columns() {
     $sel: &;
     $sel: '#{$sel}';
 
-    @at-root [class*="#{str-slice($sel, 2)}#{naming(separator)}"] {
+    @at-root [class*="#{str-slice($sel, 2)}#{vgrid-naming(separator)}"] {
         box-sizing: border-box;
 
-        @if isMode(flex) {
+        @if vgrid-isMode(flex) {
             flex: 0 0 auto;
 
-            @if getConfigValue(origin) == 'right' {
+            @if vgrid-getConfigValue(origin) == 'right' {
                 justify-content: flex-end;
                 text-align: end;
             }
         } @else {
-            float: #{getConfigValue(origin)};
+            float: #{vgrid-getConfigValue(origin)};
             position: relative;
             width: 100%;
         }
     }
 
-    @each $bpkey in getBreakpointList() {
-        @if not(getBreakpointValue($bpkey, virtual) == true) {
-            @include mq(min $bpkey, false) {
-                @at-root [class*="#{str-slice($sel, 2)}#{naming(separator)}"] {
-                    $padding: getBreakpointValue($bpkey, gutter);
+    @each $bpkey in vgrid-getBreakpointList() {
+        @if not(vgrid-getBreakpointValue($bpkey, virtual) == true) {
+            @include vgrid-mq(min $bpkey, false) {
+                @at-root [class*="#{str-slice($sel, 2)}#{vgrid-naming(separator)}"] {
+                    $padding: vgrid-getBreakpointValue($bpkey, gutter);
                     padding-left: $padding * 0.5;
                     padding-right: $padding * 0.5;
                 }
 
-                @for $i from 1 through getBreakpointValue($bpkey, columnCount) {
-                    &#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} {
-                        @include generate-column($i, getBreakpointValue($bpkey, columnCount));
+                @for $i from 1 through vgrid-getBreakpointValue($bpkey, columnCount) {
+                    &#{vgrid-naming(separator)}#{$bpkey}#{vgrid-naming(separator)}#{$i} {
+                        @include vgrid-generate-column($i, vgrid-getBreakpointValue($bpkey, columnCount));
                     }
                 }
 
-                @if isMode(flex) {
-                    &#{naming(separator)}#{$bpkey} {
+                @if vgrid-isMode(flex) {
+                    &#{vgrid-naming(separator)}#{$bpkey} {
                         flex-basis: 0;
                         flex-grow: 1;
                         max-width: 100%;
                     }
                 }
 
-                @if featureEnabled(offset) {
-                    @for $i from 1 through getBreakpointValue($bpkey, columnCount) {
-                        &#{naming(separator)}#{naming(offset)}#{naming(separator)}#{$bpkey}#{naming(separator)}#{$i} {
-                            @include generate-column-offset($i, getBreakpointValue($bpkey, columnCount));
+                @if vgrid-featureEnabled(offset) {
+                    @for $i from 1 through vgrid-getBreakpointValue($bpkey, columnCount) {
+                        &#{vgrid-naming(separator)}#{vgrid-naming(offset)}#{vgrid-naming(separator)}#{$bpkey}#{vgrid-naming(separator)}#{$i} {
+                            @include vgrid-generate-column-offset($i, vgrid-getBreakpointValue($bpkey, columnCount));
                         }
                     }
                 }
@@ -170,10 +168,14 @@
  *
  * @param  {number} $n number of the column to generate
  */
-@mixin generate-column($n, $columnCount) {
+@mixin vgrid-generate-column($n, $columnCount) {
     $width: (100% / $columnCount) * $n;
 
-    @if isMode(flex) {
+    @if $width > 100% {
+        $width: 100%;
+    }
+
+    @if vgrid-isMode(flex) {
         max-width: $width;
         flex-basis: $width;
     } @else {
@@ -188,10 +190,10 @@
  *
  * @param  {number} $n number of the column to generate
  */
-@mixin generate-column-offset($n, $columnCount) {
+@mixin vgrid-generate-column-offset($n, $columnCount) {
     $width: (100% / $columnCount) * $n;
 
-    margin-#{getConfigValue(origin)}: $width;
+    margin-#{vgrid-getConfigValue(origin)}: $width;
 }
 
 /**
@@ -199,10 +201,10 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin generate-visibility-hide() {
-    @each $bpkey in getBreakpointList() {
-        @include mq(min $bpkey, false) {
-            &#{naming(separator)}#{$bpkey} {
+@mixin vgrid-generate-visibility-hide() {
+    @each $bpkey in vgrid-getBreakpointList() {
+        @include vgrid-mq(min $bpkey, false) {
+            &#{vgrid-naming(separator)}#{$bpkey} {
                 display: none;
             }
         }
@@ -214,118 +216,118 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin generate-visibility() {
+@mixin vgrid-generate-visibility() {
     $selectorBase: '.#{naming(prefix)}';
 
-    @if featureEnabled(visibility) {
-        @each $bpkey in getRederableBreakpointList() {
-            @include mq(min $bpkey, false) {
+    @if vgrid-featureEnabled(visibility) {
+        @each $bpkey in vgrid-getRederableBreakpointList() {
+            @include vgrid-mq(min $bpkey, false) {
                 $showSelector: ();
                 $hideSelector: ();
 
-                @each $bpkeynew in getBreakpointList() {
+                @each $bpkeynew in vgrid-getBreakpointList() {
                     @if $bpkey == $bpkeynew {
-                        $showSelector: append($showSelector, #{$selectorBase}#{naming(show)}#{naming(separator)}#{$bpkeynew}#{naming(separator)}#{naming(only)}, 'comma');
+                        $showSelector: append($showSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                     }
                     @else {
-                        $showSelector: append($showSelector, #{$selectorBase}#{naming(hide)}#{naming(separator)}#{$bpkeynew}#{naming(separator)}#{naming(only)}, 'comma');
+                        $showSelector: append($showSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                     }
                 }
 
-                @each $bpkeynew in getBreakpointList() {
+                @each $bpkeynew in vgrid-getBreakpointList() {
                     @if $bpkey == $bpkeynew {
-                        $hideSelector: append($hideSelector, #{$selectorBase}#{naming(hide)}#{naming(separator)}#{$bpkeynew}#{naming(separator)}#{naming(only)}, 'comma');
+                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                     }
                     @else {
-                        $hideSelector: append($hideSelector, #{$selectorBase}#{naming(show)}#{naming(separator)}#{$bpkeynew}#{naming(separator)}#{naming(only)}, 'comma');
+                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                     }
                 }
 
                 #{$showSelector} {
-                    @include _show-element();
+                    @include _vgrid-show-element();
                 }
 
                 #{$hideSelector} {
-                    @include _hide-element();
+                    @include _vgrid-hide-element();
                 }
             }
         }
     }
 
-    @if featureEnabled(retina) {
-        @include mq(retina) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(retina)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(no-retina)} {
-                @include _show-element();
+    @if vgrid-featureEnabled(retina) {
+        @include vgrid-mq(retina) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(retina)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(no-retina)} {
+                @include _vgrid-show-element();
             }
 
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(retina)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(no-retina)} {
-                @include _hide-element();
-            }
-        }
-
-        @include mq(no-retina) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(retina)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(no-retina)} {
-                @include _hide-element();
-            }
-
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(retina)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(no-retina)} {
-                @include _show-element();
-            }
-        }
-    }
-
-    @if featureEnabled(touch) {
-        @include mq(touch) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(touch)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(no-touch)} {
-                @include _show-element();
-            }
-
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(touch)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(no-touch)} {
-                @include _hide-element();
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(retina)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(no-retina)} {
+                @include _vgrid-hide-element();
             }
         }
 
-        @include mq(no-touch) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(touch)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(no-touch)} {
-                @include _hide-element();
+        @include vgrid-mq(no-retina) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(retina)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(no-retina)} {
+                @include _vgrid-hide-element();
             }
 
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(touch)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(no-touch)} {
-                @include _show-element();
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(retina)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(no-retina)} {
+                @include _vgrid-show-element();
             }
         }
     }
 
-    @if featureEnabled(orientation) {
-        @include mq(landscape) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(landscape)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(portrait)} {
-                @include _show-element();
+    @if vgrid-featureEnabled(touch) {
+        @include vgrid-mq(touch) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(touch)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(no-touch)} {
+                @include _vgrid-show-element();
             }
 
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(landscape)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(portrait)} {
-                @include _hide-element();
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(touch)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(no-touch)} {
+                @include _vgrid-hide-element();
             }
         }
 
-        @include mq(portrait) {
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(landscape)},
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(portrait)} {
-                @include _hide-element();
+        @include vgrid-mq(no-touch) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(touch)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(no-touch)} {
+                @include _vgrid-hide-element();
             }
 
-            #{$selectorBase}#{naming(hide)}#{naming(separator)}#{naming(landscape)},
-            #{$selectorBase}#{naming(show)}#{naming(separator)}#{naming(portrait)} {
-                @include _show-element();
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(touch)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(no-touch)} {
+                @include _vgrid-show-element();
+            }
+        }
+    }
+
+    @if vgrid-featureEnabled(orientation) {
+        @include vgrid-mq(landscape) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(landscape)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(portrait)} {
+                @include _vgrid-show-element();
+            }
+
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(landscape)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(portrait)} {
+                @include _vgrid-hide-element();
+            }
+        }
+
+        @include vgrid-mq(portrait) {
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(landscape)},
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(portrait)} {
+                @include _vgrid-hide-element();
+            }
+
+            #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{vgrid-naming(landscape)},
+            #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{vgrid-naming(portrait)} {
+                @include _vgrid-show-element();
             }
         }
     }

@@ -1,4 +1,4 @@
-$gridSettings: (
+$vgrid-settings: (
     config: (
         /*
          * settings for the generated classnames
@@ -33,7 +33,7 @@ $gridSettings: (
          */
         origin: 'left',
         /*
-         * enabled features - possible features: 
+         * enabled features - possible features:
          * - classes:       - generates the classes
          * - fluid          - if the grid should generally be fluid - container widths will be 100% in every breakpoint
          * - visibility     - visibility features (show for breakpoint x, hide for another)
@@ -42,7 +42,7 @@ $gridSettings: (
          * - orientation    - show element only in landscape/portrait-mode
          * - touch          - show element only on (no-)touch devices
          * - offset         - enables offset-classes
-         * 
+         *
          * - all features disabled: '' - only grid
          */
         features: classes visibility retina orientation touch offset,
@@ -108,7 +108,7 @@ $gridSettings: (
     )
 ) !default;
 
-$gridConstants: (
+$vgrid-constants: (
     mediaQuerys: (
         retina: 'only screen and (-webkit-min-device-pixel-ratio: 2),
             only screen and (   min--moz-device-pixel-ratio: 2),

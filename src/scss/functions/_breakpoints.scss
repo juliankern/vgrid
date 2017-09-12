@@ -5,8 +5,8 @@
  *
  * @return {map} all breakpoints
  */
-@function getBreakpoints() {
-    @return map-get(getSettings(), 'breakpoints');
+@function vgrid-getBreakpoints() {
+    @return map-get(vgrid-getSettings(), 'breakpoints');
 }
 
 /**
@@ -16,11 +16,11 @@
  *
  * @return {map} all breakpoints
  */
-@function getRenderableBreakpoints() {
-    $breakpoints: map-get(getSettings(), 'breakpoints');
+@function vgrid-getRenderableBreakpoints() {
+    $breakpoints: map-get(vgrid-getSettings(), 'breakpoints');
 
     @each $bpkey, $value in $breakpoints {
-        @if getBreakpointValue($bpkey, virtual) == true {
+        @if vgrid-getBreakpointValue($bpkey, virtual) == true {
             $breakpoints: map-remove($breakpoints, $bpkey);
         }
     }
@@ -35,8 +35,8 @@
  *
  * @return {array} array list
  */
-@function getBreakpointList() {
-    @return map-keys(getBreakpoints());
+@function vgrid-getBreakpointList() {
+    @return map-keys(vgrid-getBreakpoints());
 }
 
 /**
@@ -46,8 +46,8 @@
  *
  * @return {array} array list
  */
-@function getRederableBreakpointList() {
-    @return map-keys(getRenderableBreakpoints());
+@function vgrid-getRederableBreakpointList() {
+    @return map-keys(vgrid-getRenderableBreakpoints());
 }
 
 /**
@@ -59,8 +59,8 @@
  *
  * @return {map}      map of a specific breakpoint
  */
-@function getBreakpointByKey($key) {
-    @return map-get(getBreakpoints(), $key);
+@function vgrid-getBreakpointByKey($key) {
+    @return map-get(vgrid-getBreakpoints(), $key);
 }
 
 /**
@@ -73,8 +73,8 @@
  *
  * @return {mixed}        value of the property
  */
-@function getBreakpointValue($key, $value) {
-    $brvalue: map-get(getBreakpointByKey($key), $value);
+@function vgrid-getBreakpointValue($key, $value) {
+    $brvalue: map-get(vgrid-getBreakpointByKey($key), $value);
     @if not($brvalue) { $brvalue: 0; }
     @return $brvalue;
 }
@@ -89,9 +89,9 @@
  *
  * @return {mixed}        length of the property
  */
-@function getBreakpointLength($key, $value) {
-    $length: getBreakpointValue($key, $value);
-    @if isPercentage($length) {
+@function vgrid-getBreakpointLength($key, $value) {
+    $length: vgrid-getBreakpointValue($key, $value);
+    @if vgrid-isPercentage($length) {
         @return $length;
     } @else {
         @return $length;
@@ -107,14 +107,18 @@
  *
  * @return {string}      media query string
  */
-@function getMinBreakpoint($key) {
+@function vgrid-getMinBreakpoint($key) {
     $breakpoint: '';
 
     @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
         $breakpoint: $key;
     }
     @else {
-        $breakpoint: getBreakpointLength($key, min)
+        $breakpoint: vgrid-getBreakpointLength($key, min)
+    }
+
+    @if vgrid-strip-unit($breakpoint) == 0 {
+        @return '';
     }
 
     @return '(min-width: #{$breakpoint})';
@@ -129,14 +133,18 @@
  *
  * @return {string}      media query string
  */
-@function getMaxBreakpoint($key) {
+@function vgrid-getMaxBreakpoint($key) {
     $breakpoint: '';
 
     @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
         $breakpoint: $key;
     }
     @else {
-        $breakpoint: getBreakpointLength($key, max)
+        $breakpoint: vgrid-getBreakpointLength($key, max)
+    }
+
+    @if vgrid-strip-unit($breakpoint) == 0 {
+        @return '';
     }
 
     @return '(max-width: #{$breakpoint})';
@@ -151,8 +159,8 @@
  *
  * @return {string}      media query string
  */
-@function getEqBreakpoint($key) {
-    @return '#{getMinBreakpoint($key)} and #{getMaxBreakpoint($key)}';
+@function vgrid-getEqBreakpoint($key) {
+    @return '#{vgrid-getMinBreakpoint($key)} and #{vgrid-getMaxBreakpoint($key)}';
 }
 
 
@@ -165,8 +173,8 @@
  *
  * @return {bool}      if the breakpoint has a min value
  */
-@function breakpointHasMin($key) {
-    @return map-has-key(getBreakpointByKey($key), 'min');
+@function vgrid-breakpointHasMin($key) {
+    @return map-has-key(vgrid-getBreakpointByKey($key), 'min');
 }
 
 /**
@@ -178,8 +186,8 @@
  *
  * @return {bool}      if the brekpoint has a max value
  */
-@function breakpointHasMax($key) {
-    @return map-has-key(getBreakpointByKey($key), 'max');
+@function vgrid-breakpointHasMax($key) {
+    @return map-has-key(vgrid-getBreakpointByKey($key), 'max');
 }
 
 /**
@@ -193,20 +201,20 @@
  *
  * @return {string}            full media query for the breakpoint
  */
-@function getMediaQuery($type, $key, $fallback: true) {
+@function vgrid-getMediaQuery($type, $key, $fallback: true) {
     $return: null;
 
     @if $type == retina {
-        @return getConstantValue(mediaQuerys, retina);
+        @return vgrid-getConstantValue(mediaQuerys, retina);
     }
     @else if $type == no-retina {
-        @return getConstantValue(mediaQuerys, noRetina);
+        @return vgrid-getConstantValue(mediaQuerys, noRetina);
     }
     @else if $type == landscape {
-        $return: getConstantValue(mediaQuerys, landscape);
+        $return: vgrid-getConstantValue(mediaQuerys, landscape);
     }
     @else if $type == portrait {
-        $return: getConstantValue(mediaQuerys, portrait);
+        $return: vgrid-getConstantValue(mediaQuerys, portrait);
     }
     @else if $type == touch {
         @return '.touch ';
@@ -216,32 +224,32 @@
     }
     @else if $type == min {
         @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
-            $return: getMinBreakpoint($key);
+            $return: vgrid-getMinBreakpoint($key);
         }
-        @else if not(breakpointHasMin($key)) and $fallback {
+        @else if not(vgrid-breakpointHasMin($key)) and $fallback {
             @warn 'Breakpoint #{$key} lacks "min", fallback to max-breakpoint';
-            $return: getMaxBreakpoint($key);
+            $return: vgrid-getMaxBreakpoint($key);
         }
-        @else if not(breakpointHasMin($key)) and not($fallback) {
-            $return: getMinBreakpoint($key);
+        @else if not(vgrid-breakpointHasMin($key)) and not($fallback) {
+            $return: vgrid-getMinBreakpoint($key);
         }
         @else {
-            $return: getMinBreakpoint($key);
+            $return: vgrid-getMinBreakpoint($key);
         }
     }
     @else if $type == max {
         @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
-            $return: getMaxBreakpoint($key);
+            $return: vgrid-getMaxBreakpoint($key);
         }
-        @else if not(breakpointHasMax($key)) and $fallback {
+        @else if not(vgrid-breakpointHasMax($key)) and $fallback {
             @warn 'Breakpoint #{$key} lacks "max", fallback to min-breakpoint';
-            $return: getMinBreakpoint($key);
+            $return: vgrid-getMinBreakpoint($key);
         }
-        @else if not(breakpointHasMax($key)) and not($fallback) {
-            $return: getMaxBreakpoint($key);
+        @else if not(vgrid-breakpointHasMax($key)) and not($fallback) {
+            $return: vgrid-getMaxBreakpoint($key);
         }
         @else {
-            $return: getMaxBreakpoint($key);
+            $return: vgrid-getMaxBreakpoint($key);
         }
     }
     @else if ($key == null and not($type == null)) or $type == eq {
@@ -252,25 +260,28 @@
 
         @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') and $type == eq {
             @warn 'If providing a pixel value, you need to choose if "min" or "max", fallback to min';
-            $return: getMinBreakpoint($key);
+            $return: vgrid-getMinBreakpoint($key);
         }
         @else {
-            @if breakpointHasMin($key) and breakpointHasMax($key) {
-                $return: getEqBreakpoint($key);
+            @if vgrid-breakpointHasMin($key) and vgrid-breakpointHasMax($key) {
+                $return: vgrid-getEqBreakpoint($key);
             }
-            @else if breakpointHasMin($key) and not(breakpointHasMax($key)) {
-                $return: getMinBreakpoint($key);
+            @else if vgrid-breakpointHasMin($key) and not(vgrid-breakpointHasMax($key)) {
+                $return: vgrid-getMinBreakpoint($key);
             }
-            @else if not(breakpointHasMin($key)) and not(breakpointHasMax($key)) {
+            @else if not(vgrid-breakpointHasMin($key)) and not(vgrid-breakpointHasMax($key)) {
                 @error 'Breakpoint #{$key} misses min AND max!';
             }
             @else {
-                $return: getMaxBreakpoint($key);
+                $return: vgrid-getMaxBreakpoint($key);
             }
         }
     }
 
-    @if not($return == null) {
-        @return '#{getConfigValue(mqTarget)} and #{$return}';
+    @if $return == '' {
+        @return '#{vgrid-getConfigValue(mqTarget)}';
+    }
+    @else if not($return == null) {
+        @return '#{vgrid-getConfigValue(mqTarget)} and #{$return}';
     }
 }

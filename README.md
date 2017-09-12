@@ -1,4 +1,4 @@
-# grid
+# v-grid
 
 This grid is a very variable grid system with multiple features:
 - enable/disable certain features for your needs
@@ -30,7 +30,7 @@ To compile the CSS and compress it at the same time, use ``npm run compress``.
 Default options with comments:
 
 ```scss
-$gridSettings: (
+$vgrid-settings: (
     config: (
         /*
          * settings for the generated classnames
@@ -146,7 +146,7 @@ $gridSettings: (
 Copy the full ``scss``-folder to your project or import ``grid.scss`` in your main SCSS-file. Set the config options you want to overwrite, provide the full breakpoints you need. Then start the grid. For example:
 
 ```scss
-@import "../../libs/grid/src/scss/grid.scss"
+@import "PATH/TO/VGRID/src/scss/grid.scss"
 
 $grid: (
     config: (
@@ -199,7 +199,7 @@ $grid: (
     )
 );
 
-@include grid($grid);
+@include vgrid($grid);
 ```
 
 This will generate the full grid classes. If you want to use grid in mixin-mode to build your own classes, you can just remove the feature ``classes`` from the configuration.
@@ -212,31 +212,37 @@ When you removed ``classes`` from your features, you need to use the grid in mix
 ```scss
 .theContainer {
     // generates the main container
-    @include generate-container();
+    @include vgrid-generate-container();
 }
 
 .someRowElement {
     // generates a grid row
-    @include generate-row();
+    @include vgrid-generate-row();
 }
 
 .someColumnElement {
     // generates a column with the span of 8
-    @include generate-single-column(8);
+    @include vgrid-generate-single-column(8);
 }
 
 .anotherColumnElement {
     // generates a colum with a span of 4, should fit with the other column in one line in a 12-column-grid
-    @include generate-single-column(4);
+    @include vgrid-generate-single-column(4);
 }
 
 ```
 
 ## MQ-Mixin
 
-One special feature of the grid is the mq-mixin, which is a allround mixin for building media queries easily:
+One special feature of the grid is the mq-mixin, which is a allround mixin for building media queries easily. The mixin is prefixed, but can also be used with a wrapper:
 
 ```scss
+@mixin mq($a, $b, $c) {
+    @include vgrid-mq($a, $b, $c) {
+        @content;
+    }
+}
+
 .someElement {
     // builds a media query for every screen bigger than (and equal) the medium breakpoint
     @include mq(min medium) {

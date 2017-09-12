@@ -8,26 +8,26 @@
  *
  * @param  {map} $settings map of settings - default settings will be merged
  *
- * @return {null}           
+ * @return {null}
  */
-@mixin grid($settings) {
-    $gridSettings: mergeConfig($gridSettings, $settings) !global;
+@mixin vgrid($settings) {
+    $vgrid-settings: vgrid-mergeConfig($vgrid-settings, $settings) !global;
 
-    @if featureEnabled(classes) {
-        .#{naming(prefix)} {
-            &#{naming(row)} {
-                @include generate-row();
+    @if vgrid-featureEnabled(classes) {
+        .#{vgrid-naming(prefix)} {
+            &#{vgrid-naming(row)} {
+                @include vgrid-generate-row();
             }
 
-            &#{naming(container)} {
-                @include generate-container();
+            &#{vgrid-naming(container)} {
+                @include vgrid-generate-container();
             }
 
-            &#{naming(col)} {
-                @include generate-columns();
+            &#{vgrid-naming(col)} {
+                @include vgrid-generate-columns();
             }
         }
 
-        @include generate-visibility();
+        @include vgrid-generate-visibility();
     }
 }

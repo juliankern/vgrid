@@ -7,8 +7,8 @@
  *
  * @return {string}     rem value
  */
-@function pxToRem($px) {
-    @return #{$px / getConfigValue(baseFontSize)}rem;
+@function vgrid-pxToRem($px) {
+    @return #{$px / vgrid-getConfigValue(baseFontSize)}rem;
 }
 
 /**
@@ -20,6 +20,14 @@
  *
  * @return {bool}        if the value has a percentage sign
  */
-@function isPercentage($value) {
-  @return not(not(str-index('#{$value}', '%'))); 
+@function vgrid-isPercentage($value) {
+    @return not(not(str-index('#{$value}', '%')));
+}
+
+@function vgrid-strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
 }

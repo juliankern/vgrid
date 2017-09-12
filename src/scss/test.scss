@@ -52,8 +52,13 @@ $grid: (
     )
 );
 
-@include grid($grid);
+@include vgrid($grid);
 
+@mixin mq($a, $b: null) {
+    @include vgrid-mq($a, $b) {
+        @content;
+    }
+}
 
 .test {
     color: blue;
@@ -69,20 +74,20 @@ $grid: (
 
 .theContainer {
     // generates the main container
-    @include generate-container();
+    @include vgrid-generate-container();
 }
 
 .someRowElement {
     // generates a grid row
-    @include generate-row();
+    @include vgrid-generate-row();
 }
 
 .someColumnElement {
     // generates a column with the span of 8
-    @include generate-single-column(8);
+    @include vgrid-generate-single-column(8);
 }
 
 .anotherColumnElement {
     // generates a colum with a span of 4, should fit with the other column in one line in a 12-column-grid
-    @include generate-single-column(4);
+    @include vgrid-generate-single-column(4);
 }
