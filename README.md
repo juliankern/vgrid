@@ -238,8 +238,8 @@ When you removed ``classes`` from your features, you need to use the grid in mix
 One special feature of the grid is the mq-mixin, which is a allround mixin for building media queries easily. The mixin is prefixed, but can also be used with a wrapper:
 
 ```scss
-@mixin mq($a, $b, $c) {
-    @include vgrid-mq($a, $b, $c) {
+@mixin mq($a, $b: null) {
+    @include vgrid-mq($a, $b) {
         @content;
     }
 }
