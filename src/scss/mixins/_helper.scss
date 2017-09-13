@@ -23,7 +23,7 @@
 
     @if featureEnabled(adv-visibility) {
         @each $type in (block, inline-block, inline) {
-            &#{naming(separator)}#{$type} {
+            &#{vgrid-naming(separator)}#{$type} {
                 display: $type;
             }
         }

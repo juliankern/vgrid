@@ -217,7 +217,7 @@
  * @author Julian Kern <mail@juliankern.com>
  */
 @mixin vgrid-generate-visibility() {
-    $selectorBase: '.#{naming(prefix)}';
+    $selectorBase: '.#{vgrid-naming(prefix)}';
 
     @if vgrid-featureEnabled(visibility) {
         @each $bpkey in vgrid-getRederableBreakpointList() {
