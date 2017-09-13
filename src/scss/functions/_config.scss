@@ -156,7 +156,7 @@
  *
  * @return {mixed}       constant value
  */
-@function gvgrid-etConstantValue($type, $key) {
+@function vgrid-getConstantValue($type, $key) {
     @return map-get(
         map-get(vgrid-getConstants(), $type),
         $key
