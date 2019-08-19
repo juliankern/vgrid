@@ -26,6 +26,8 @@
             &#{vgrid-naming(col)} {
                 @include vgrid-generate-columns();
             }
+
+            @include vgrid-generate-v-padding();
         }
 
         @include vgrid-generate-visibility();

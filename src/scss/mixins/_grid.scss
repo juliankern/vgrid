@@ -162,6 +162,34 @@
 }
 
 /**
+ * mixin for generating v-padding class
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ */
+@mixin vgrid-generate-v-padding() {
+    $sel: &;
+    $sel: '#{$sel}';
+
+    @each $bpkey in vgrid-getBreakpointList() {
+        @if not(vgrid-getBreakpointValue($bpkey, virtual) == true) {
+            @include vgrid-mq(min $bpkey, false) {
+                &#{vgrid-naming(vpadding)} {
+                    $padding: vgrid-getBreakpointValue($bpkey, gutter);
+                    padding-top: $padding * 0.5;
+                    padding-bottom: $padding * 0.5;
+                }
+
+                &#{vgrid-naming(row)}#{vgrid-naming(separator)}#{vgrid-naming(vpadding)} {
+                    $padding: vgrid-getBreakpointValue($bpkey, gutter);
+                    margin-top: $padding * -0.5;
+                    margin-bottom: $padding * -0.5;
+                }
+            }
+        }
+    }
+}
+
+/**
  * mixin for generating one specific column
  *
  * @author Julian Kern <mail@juliankern.com>
@@ -227,28 +255,24 @@
 
                 @each $bpkeynew in vgrid-getBreakpointList() {
                     @if $bpkey == $bpkeynew {
+                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                         $showSelector: append($showSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
+                        
+                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(up)}, 'comma');
+                        $showSelector: append($showSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(up)}, 'comma');
                     }
                     @else {
+                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                         $showSelector: append($showSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
                     }
                 }
 
-                @each $bpkeynew in vgrid-getBreakpointList() {
-                    @if $bpkey == $bpkeynew {
-                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(hide)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
-                    }
-                    @else {
-                        $hideSelector: append($hideSelector, #{$selectorBase}#{vgrid-naming(show)}#{vgrid-naming(separator)}#{$bpkeynew}#{vgrid-naming(separator)}#{vgrid-naming(only)}, 'comma');
-                    }
-                }
-
                 #{$showSelector} {
-                    @include _vgrid-show-element();
+                    @include _vgrid-show-element(true);
                 }
 
                 #{$hideSelector} {
-                    @include _vgrid-hide-element();
+                    @include _vgrid-hide-element(true);
                 }
             }
         }

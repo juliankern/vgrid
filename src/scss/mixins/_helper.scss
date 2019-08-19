@@ -18,13 +18,19 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin _vgrid-show-element() {
-    display: block;
+@mixin _vgrid-show-element($important: false) {
+    $suffix: '';
+
+    @if $important {
+        $suffix: !important;
+    }
+
+    display: block $suffix;
 
     @if featureEnabled(adv-visibility) {
         @each $type in (block, inline-block, inline) {
             &#{vgrid-naming(separator)}#{$type} {
-                display: $type;
+                display: $type $suffix;
             }
         }
     }
@@ -35,8 +41,22 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  */
-@mixin _vgrid-hide-element() {
-    display: none;
+@mixin _vgrid-hide-element($important: false) {
+    $suffix: '';
+
+    @if $important {
+        $suffix: !important;
+    }
+
+    display: none $suffix;
+
+    @if featureEnabled(adv-visibility) {
+        @each $type in (block, inline-block, inline) {
+            &#{vgrid-naming(separator)}#{$type} {
+                display: none $suffix;
+            }
+        }
+    }
 }
 
 /**
