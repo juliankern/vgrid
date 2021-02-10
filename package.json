@@ -1,5 +1,5 @@
 {
-  "name": "grid",
+  "name": "@juliankern/vgrid",
   "version": "1.0.0",
   "description": "Very variable grid for use in frontend projects - use 'npm start' first, before opening an example",
   "scripts": {
