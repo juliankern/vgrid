@@ -14,7 +14,7 @@
   ],
   "author": "Julian Kern <mail@juliankern.com>",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "mkdirp": "^0.5.1",
     "node-sass": "^4.14.1"
   }
