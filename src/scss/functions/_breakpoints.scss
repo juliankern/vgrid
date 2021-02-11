@@ -1,5 +1,5 @@
 /**
- * get all brekpoints as map
+ * get all breakpoints as map
  *
  * @author Julian Kern <mail@juliankern.com>
  *
@@ -10,7 +10,7 @@
 }
 
 /**
- * get all rederable brekpoints as map
+ * get all rederable breakpoints as map
  *
  * @author Julian Kern <mail@juliankern.com>
  *
@@ -55,7 +55,7 @@
  *
  * @author Julian Kern <mail@juliankern.com>
  *
- * @param  {string} $key Key of a specific brekpoint
+ * @param  {string} $key Key of a specific breakpoint
  *
  * @return {map}      map of a specific breakpoint
  */
@@ -64,11 +64,11 @@
 }
 
 /**
- * gets a specific value from a specific brekpoint
+ * gets a specific value from a specific breakpoint
  *
  * @author Julian Kern <mail@juliankern.com>
  *
- * @param  {string} $key   key of the brekpoint
+ * @param  {string} $key   key of the breakpoint
  * @param  {string} $value key of the property
  *
  * @return {mixed}        value of the property
@@ -108,24 +108,11 @@
  * @return {string}      media query string
  */
 @function vgrid-getMinBreakpoint($key) {
-    $breakpoint: '';
-
-    @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
-        $breakpoint: $key;
-    }
-    @else {
-        $breakpoint: vgrid-getBreakpointLength($key, min)
-    }
-
-    @if vgrid-strip-unit($breakpoint) == 0 {
-        @return '';
-    }
-
-    @return '(min-width: #{$breakpoint})';
+    @return vgrid-getRawBreakpoint($key, min, min);
 }
 
 /**
- * gets the max width for a brekpoint, for use in a media query
+ * gets the max width for a breakpoint, for use in a media query
  *
  * @author Julian Kern <mail@juliankern.com>
  *
@@ -134,20 +121,36 @@
  * @return {string}      media query string
  */
 @function vgrid-getMaxBreakpoint($key) {
+    @return vgrid-getRawBreakpoint($key, max, max);
+}
+
+/**
+ * gets the width for a breakpoint, for use in a media query
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {string} $key breakpoint key
+ * @param  {string} $mqType type to use in mediaquery
+ * @param  {string} $widthType width to get from MQ
+ * @param  {string} $offset offset to change breakpoint width
+ *
+ * @return {string}      media query string
+ */
+@function vgrid-getRawBreakpoint($key, $mqType, $widthType, $offset: 0) {
     $breakpoint: '';
 
     @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
         $breakpoint: $key;
     }
     @else {
-        $breakpoint: vgrid-getBreakpointLength($key, max)
+        $breakpoint: vgrid-getBreakpointLength($key, $widthType)
     }
 
     @if vgrid-strip-unit($breakpoint) == 0 {
         @return '';
     }
 
-    @return '(max-width: #{$breakpoint})';
+    @return '(#{$mqType}-width: #{$breakpoint + $offset})';
 }
 
 /**
@@ -165,7 +168,7 @@
 
 
 /**
- * checks if the brekpoint has a min value
+ * checks if the breakpoint has a min value
  *
  * @author Julian Kern <mail@juliankern.com>
  *
@@ -178,13 +181,13 @@
 }
 
 /**
- * checks if the brekpoint has a max value
+ * checks if the breakpoint has a max value
  *
  * @author Julian Kern <mail@juliankern.com>
  *
  * @param  {string} $key breakpoint key
  *
- * @return {bool}      if the brekpoint has a max value
+ * @return {bool}      if the breakpoint has a max value
  */
 @function vgrid-breakpointHasMax($key) {
     @return map-has-key(vgrid-getBreakpointByKey($key), 'max');
@@ -250,6 +253,36 @@
         }
         @else {
             $return: vgrid-getMaxBreakpoint($key);
+        }
+    }
+    @else if $type == above {
+        @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
+            $return: vgrid-getRawBreakpoint($key, min, max, 1);
+        }
+        @else if not(vgrid-breakpointHasMax($key)) and $fallback {
+            @warn 'Breakpoint #{$key} lacks "max", fallback to min-breakpoint';
+            $return: vgrid-getMinBreakpoint($key);
+        }
+        @else if not(vgrid-breakpointHasMax($key)) and not($fallback) {
+            $return: vgrid-getRawBreakpoint($key, min, max, 1);
+        }
+        @else {
+            $return: vgrid-getRawBreakpoint($key, min, max, 1);
+        }
+    }
+    @else if $type == below {
+        @if type-of($key) == 'number' and (unit($key) == 'px' or unit($key) == 'rem') {
+            $return: vgrid-getRawBreakpoint($key, max, min, -1);
+        }
+        @else if not(vgrid-breakpointHasMin($key)) and $fallback {
+            @warn 'Breakpoint #{$key} lacks "min", fallback to max-breakpoint';
+            $return: vgrid-getMaxBreakpoint($key);
+        }
+        @else if not(vgrid-breakpointHasMin($key)) and not($fallback) {
+            $return: vgrid-getRawBreakpoint($key, max, min, -1);
+        }
+        @else {
+            $return: vgrid-getRawBreakpoint($key, max, min, -1);
         }
     }
     @else if ($key == null and not($type == null)) or $type == eq {
