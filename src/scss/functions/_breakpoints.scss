@@ -311,10 +311,10 @@
         }
     }
 
-    @if $return == '' {
-        @return '#{vgrid-getConfigValue(mqTarget)}';
-    }
-    @else if not($return == null) {
+    @if not($return == null) {
         @return '#{vgrid-getConfigValue(mqTarget)} and #{$return}';
+    }
+    @else {
+      @return '#{vgrid-getConfigValue(mqTarget)}';
     }
 }
