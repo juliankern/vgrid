@@ -311,7 +311,7 @@
         }
     }
 
-    @if not($return == null) {
+    @if not($return == null or $return == '' or $return == ' ') {
         @return '#{vgrid-getConfigValue(mqTarget)} and #{$return}';
     }
     @else {
