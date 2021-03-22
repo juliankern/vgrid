@@ -2,6 +2,19 @@
 @import 'mixins/grid';
 
 /**
+ * prepare the settings to be used by vgrid
+ *
+ * @author Julian Kern <mail@juliankern.com>
+ *
+ * @param  {map} $settings map of settings - default settings will be merged
+ *
+ * @return {null}
+ */
+@mixin vgrid-prepare($settings) {
+    $vgrid-settings: vgrid-mergeConfig($vgrid-settings, $settings) !global;
+}
+
+/**
  * init mixin for the grid
  *
  * @author Julian Kern <mail@juliankern.com>
@@ -11,7 +24,7 @@
  * @return {null}
  */
 @mixin vgrid($settings) {
-    $vgrid-settings: vgrid-mergeConfig($vgrid-settings, $settings) !global;
+    @include vgrid-prepare($settings);
 
     @if vgrid-featureEnabled(classes) {
         .#{vgrid-naming(prefix)} {
